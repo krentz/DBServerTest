@@ -50,7 +50,22 @@ class PokemonListViewController :UIViewController{
         })
     }
     
-    
+    //segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "pokemonDetail") {
+            _ = segue.destination as! PokemonDetailViewController
+            //vc.pokemonsType = sender as? Type
+        }
+    }
+}
+
+extension PokemonListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.performSegue(withIdentifier: "pokemonDetail", sender: self)
+    }
+    //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    //        return 80
+    //    }
 }
 
 extension PokemonListViewController: UITableViewDataSource{
