@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jel-6t-gyp">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jel-6t-gyp">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -49,11 +49,56 @@
                     <navigationItem key="navigationItem" id="Cde-rd-RRk"/>
                     <connections>
                         <outlet property="tableView" destination="jel-6t-gyp" id="pgF-yW-ex2"/>
+                        <segue destination="UFX-As-dYz" kind="show" identifier="pokemonList" id="CWL-eL-7qY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="794" y="-654"/>
+        </scene>
+        <!--Pokemon List View Controller-->
+        <scene sceneID="Ftl-fG-eZF">
+            <objects>
+                <viewController id="UFX-As-dYz" customClass="PokemonListViewController" customModule="DBServerTest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="y2k-Ex-pQT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="SMo-u5-5Nj">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="ARk-XL-j3H">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ARk-XL-j3H" id="HiR-kB-6de">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="UFX-As-dYz" id="chv-SH-n6P"/>
+                                    <outlet property="delegate" destination="UFX-As-dYz" id="1uO-5e-4wo"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="eLm-pu-82s" firstAttribute="trailing" secondItem="SMo-u5-5Nj" secondAttribute="trailing" id="HMh-cr-F4m"/>
+                            <constraint firstItem="SMo-u5-5Nj" firstAttribute="top" secondItem="eLm-pu-82s" secondAttribute="top" id="o05-7B-xiX"/>
+                            <constraint firstItem="SMo-u5-5Nj" firstAttribute="leading" secondItem="eLm-pu-82s" secondAttribute="leading" id="owj-EV-3ZH"/>
+                            <constraint firstItem="eLm-pu-82s" firstAttribute="bottom" secondItem="SMo-u5-5Nj" secondAttribute="bottom" id="xtl-Am-AzS"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="eLm-pu-82s"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="SMo-u5-5Nj" id="uXG-6E-TOL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ADw-dy-mGn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1580" y="-654"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Yew-Yk-3Q2">

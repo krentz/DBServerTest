@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  PokemonList.swift
 //  DBServerTest
 //
 //  Created by Rafael Goncalves on 26/06/19.
@@ -8,19 +8,18 @@
 
 import UIKit
 
-class PokemonTypeViewController: UIViewController {
-
-    @IBOutlet weak var tableView: UITableView!{
-        didSet{
-            tableView.isHidden = true
-        }
-    }
+class PokemonListViewController :UIViewController{
     
-    var pokemonTypeList : PokemonType?
+    @IBOutlet weak var tableView: UITableView!
+    
+    var pokemonList : PokemonList?
+    var pokemonsType: Type?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Pokemon Types"
+        self.navigationItem.title = "Type"
+       self.navigationController?.navigationBar.topItem?.title = ""
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.showError(_:)), name: .connectionError, object: nil)
         
         self.parsePokemonTypesListResponse()
@@ -31,9 +30,9 @@ class PokemonTypeViewController: UIViewController {
     }
     
     func parsePokemonTypesListResponse(){
-        Service.shared.getPokemonTypesList(completion: { pokemonTypeList in
+        Service.shared.getPokemonList(url: pokemonsType!.url, completion: { pokemonList in
             
-            self.pokemonTypeList = pokemonTypeList
+            self.pokemonList = pokemonList
             
             DispatchQueue.main.async {
                 
@@ -51,32 +50,16 @@ class PokemonTypeViewController: UIViewController {
         })
     }
     
-    //segue
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "pokemonList") {
-            let vc = segue.destination as! PokemonListViewController
-            vc.pokemonsType = sender as? Type
-        }
-    }
+    
 }
 
-extension PokemonTypeViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "pokemonList", sender: self.pokemonTypeList?.results[indexPath.row])
-    }
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 80
-//    }
-}
-
-
-extension PokemonTypeViewController: UITableViewDataSource{
+extension PokemonListViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        if let typeName = self.pokemonTypeList?.results[indexPath.row].name{
+        if let typeName = self.pokemonList?.pokemon[indexPath.row].pokemon.name{
             cell.textLabel?.text = "\(String(describing: typeName))"
         }
         
@@ -91,7 +74,7 @@ extension PokemonTypeViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if let count =  self.pokemonTypeList?.count {
+        if let count =  self.pokemonList?.pokemon.count {
             return count
         }
         
