@@ -8,19 +8,19 @@
 
 import Foundation
 
-struct PokemonList: Codable{
+struct PokemonList{
     
-    var damage_relations : Damage
-    var game_indices : [GameIndices]
-    var generation : Type
-    var id : Int
-    var move_damage_class : Type
-    var moves : [Type]
-    var name : String
-    var names : [NameLanguage]
-    var pokemon : [Pokemon]
+    var damage_relations : Any
+    var game_indices : [GameIndices]?
+    var generation : Type?
+    var id : Int?
+    var move_damage_class : Type?
+    var moves : [Type]?
+    var name : String?
+    var names : [NameLanguage]?
+    var pokemon : [String]?
     
-    init(damage_relations: Damage, game_indices: [GameIndices], generation: Type, id: Int, move_damage_class: Type, moves: [Type], name: String, names: [NameLanguage], pokemon: [Pokemon]) {
+    init(damage_relations: Any, game_indices: [GameIndices], generation: Type, id: Int, move_damage_class: Type, moves: [Type], name: String, names: [NameLanguage], pokemon: [String]) {
         self.damage_relations = damage_relations
         self.game_indices = game_indices
         self.generation = generation

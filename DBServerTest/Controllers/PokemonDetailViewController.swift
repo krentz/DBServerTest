@@ -7,11 +7,18 @@
 //
 
 import UIKit
+import Kingfisher
 
 class PokemonDetailViewController: UIViewController {
 
     var pokemonURL : String = ""
-    var pokemonModel : PokemonModel?
+    
+    @IBOutlet weak var picture: UIImageView!
+    @IBOutlet weak var name: UILabel!
+    @IBOutlet weak var height: UILabel!
+    @IBOutlet weak var weight: UILabel!
+    @IBOutlet weak var abilities: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,8 +31,6 @@ class PokemonDetailViewController: UIViewController {
         
         self.parsePokemonTypesListResponse()
         
-     
-        
     }
     
     @objc func showError(_ notification: NSNotification){
@@ -35,8 +40,13 @@ class PokemonDetailViewController: UIViewController {
     func parsePokemonTypesListResponse(){
         Service.shared.getPokemonDetail(url: pokemonURL, completion: { pokemonModel in
             
-            self.pokemonModel = pokemonModel
-           
+            DispatchQueue.main.async {
+                self.picture.loadImage(url: pokemonModel.urlImage)
+                self.name.text = pokemonModel.name
+                self.height.text = "\(pokemonModel.height)"
+                self.weight.text = "\(pokemonModel.weight)"
+                self.abilities.text = "\(pokemonModel.weight)"
+            }
         })
     }
     

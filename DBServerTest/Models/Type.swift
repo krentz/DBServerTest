@@ -8,11 +8,12 @@
 
 import Foundation
 
-struct Type : Codable{
+struct Type: Codable{
     var name : String
     var url : String
-    init(name: String, url: String) {
-        self.name = name
-        self.url = url
-    }
+}
+
+struct PokemonTypeStructure{
+    var name : String
+    var url : String
 }

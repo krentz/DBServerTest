@@ -8,8 +8,8 @@
 
 import UIKit
 
-class PokemonTypeViewController: UIViewController {
-
+class PokemonTypeViewController: UIViewController{
+    
     @IBOutlet weak var tableView: UITableView!{
         didSet{
             tableView.isHidden = true
@@ -21,52 +21,78 @@ class PokemonTypeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Pokemon Types"
-        NotificationCenter.default.addObserver(self, selector: #selector(self.showError(_:)), name: .connectionError, object: nil)
-        
-        self.parsePokemonTypesListResponse()
+   
+        self.loadPokemonTypeList(url: "https://pokeapi.co/api/v2/type/")
     }
-    
-    @objc func showError(_ notification: NSNotification){
-        self.showAlert(title: "Connection error" , message:  notification.object as! String, in: self)
-    }
-    
-    func parsePokemonTypesListResponse(){
-        Service.shared.getPokemonTypesList(completion: { pokemonTypeList in
-            
-            self.pokemonTypeList = pokemonTypeList
-            
-            DispatchQueue.main.async {
+
+    func loadPokemonTypeList(url: String?){
+        Service.shared.loadPokemonTypeList(url: url){ (response) in
+            switch response{
+            case .success(let model):
                 
-                self.tableView.reloadData()
+                self.resultModel = model
                 
-                if self.tableView.isHidden == true {
-                    UIView.transition(with:  self.tableView,
-                                      duration: 0.5,
-                                      options: .transitionCrossDissolve,
-                                      animations: {
-                                        self.tableView.isHidden = false
-                    })
+                DispatchQueue.main.async {
+                
+                    self.tableView.reloadData()
+                
+                    if self.tableView.isHidden == true {
+                        UIView.transition(with:  self.tableView,
+                                        duration: 0.5,
+                                        options: .transitionCrossDissolve,
+                                        animations: {
+                                            self.tableView.isHidden = false
+                                    })
+                    }
                 }
+                
+            case .serverError(let description):
+                print(description)
+                self.showAlert(title: "server error" , message:  "error", in: self)
+            case .timeOut(let description):
+                print(description)
+                self.showAlert(title: "timeout" , message:  "error", in: self)
+            case .noConnection(let description):
+                print(description)
+                self.showAlert(title: "No connection" , message:  "error", in: self)
+            case .invalidResponse:
+                self.showAlert(title: "Invalid Response" , message:  "error", in: self)
+                print("Invalid Response")
             }
-        })
+        }
     }
+    
+    var requestPokedex = Service()
+    var resultModel: PokemonType?
+    var resultCount = 0
+    var pokemons = [PokemonModel]()
+    var imagePokemons = [Data]()
+    
+    enum PokemonResponse{
+        case success(model: PokemonModel)
+        case serverError(description: ServerError)
+        case timeOut(description: ServerError)
+        case noConnection(description: ServerError)
+        case invalidResponse
+    }
+    
     
     //segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "pokemonList") {
             let vc = segue.destination as! PokemonListViewController
-            vc.pokemonsType = sender as? Type
+            vc.pokemonsType = sender as? PokemonTypeStructure
         }
     }
 }
 
 extension PokemonTypeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "pokemonList", sender: self.pokemonTypeList?.results[indexPath.row])
+        self.performSegue(withIdentifier: "pokemonList", sender: self.resultModel?.results[indexPath.row])
     }
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 80
-//    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80
+    }
 }
 
 
@@ -76,7 +102,7 @@ extension PokemonTypeViewController: UITableViewDataSource{
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        if let typeName = self.pokemonTypeList?.results[indexPath.row].name{
+        if let typeName = self.resultModel?.results[indexPath.row].name{
             cell.textLabel?.text = "\(String(describing: typeName))"
         }
         
@@ -91,7 +117,7 @@ extension PokemonTypeViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if let count =  self.pokemonTypeList?.count {
+        if let count =  self.resultModel?.count {
             return count
         }
         

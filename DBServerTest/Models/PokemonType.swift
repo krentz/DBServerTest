@@ -9,18 +9,12 @@
 import Foundation
 
 
-struct PokemonType: Codable{
+struct PokemonType{
     
-    var count : Int
+    var count : Int?
     var next : Int?
     var previous : Int?
-    var results : [Type]
+    var results : [PokemonTypeStructure]
     
-    init(count: Int, next: Int, previous: Int, results: [Type]) {
-        self.count = count
-        self.next = next
-        self.previous = previous
-        self.results = results
-    }
 }
 

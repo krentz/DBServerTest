@@ -12,3 +12,13 @@ struct  Pokemon: Codable {
     var pokemon : Type
     var slot : Int
 }
+
+struct PokemonNamesStructure{
+    var pokemon : [Any]
+    var slot : Int
+}
+
+struct PokemonListNames {
+    var name : String?
+    var id : Int?
+}
