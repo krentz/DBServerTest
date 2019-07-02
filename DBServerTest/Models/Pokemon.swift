@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct  Pokemon: Codable {
+struct  Pokemon {
     var pokemon : Type
     var slot : Int
 }
 
 struct PokemonNamesStructure{
-    var pokemon : [Any]
+    var pokemon : [Type]
     var slot : Int
 }
 

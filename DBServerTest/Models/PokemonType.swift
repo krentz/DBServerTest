@@ -10,7 +10,6 @@ import Foundation
 
 
 struct PokemonType{
-    
     var count : Int?
     var next : Int?
     var previous : Int?

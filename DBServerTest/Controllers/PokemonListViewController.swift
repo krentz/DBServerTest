@@ -31,19 +31,8 @@ class PokemonListViewController :UIViewController{
                 self.pokemonList = model
                 
                 DispatchQueue.main.async {
-                    
-                    self.tableView.reloadData()
-                    
-                    if self.tableView.isHidden == true {
-                        UIView.transition(with:  self.tableView,
-                                          duration: 0.5,
-                                          options: .transitionCrossDissolve,
-                                          animations: {
-                                            self.tableView.isHidden = false
-                        })
-                    }
+                    self.tableView.showTableViewWithAnimation()
                 }
-                
             case .serverError(let description):
                 print(description)
                 self.showAlert(title: "server error" , message:  "error", in: self)

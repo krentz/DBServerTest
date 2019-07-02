@@ -16,36 +16,27 @@ class PokemonTypeViewController: UIViewController{
         }
     }
     
-    var pokemonTypeList : PokemonType?
+    var resultModel: PokemonType?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Pokemon Types"
-   
-        self.loadPokemonTypeList(url: "https://pokeapi.co/api/v2/type/")
+        self.loadPokemonTypeList(url: .pokemonTypesUrl)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationItem.title = "Pokemon Type"
     }
 
     func loadPokemonTypeList(url: String?){
         Service.shared.loadPokemonTypeList(url: url){ (response) in
             switch response{
             case .success(let model):
-                
+            
                 self.resultModel = model
                 
                 DispatchQueue.main.async {
-                
-                    self.tableView.reloadData()
-                
-                    if self.tableView.isHidden == true {
-                        UIView.transition(with:  self.tableView,
-                                        duration: 0.5,
-                                        options: .transitionCrossDissolve,
-                                        animations: {
-                                            self.tableView.isHidden = false
-                                    })
-                    }
+                   self.tableView.showTableViewWithAnimation()
                 }
-                
             case .serverError(let description):
                 print(description)
                 self.showAlert(title: "server error" , message:  "error", in: self)
@@ -61,21 +52,6 @@ class PokemonTypeViewController: UIViewController{
             }
         }
     }
-    
-    var requestPokedex = Service()
-    var resultModel: PokemonType?
-    var resultCount = 0
-    var pokemons = [PokemonModel]()
-    var imagePokemons = [Data]()
-    
-    enum PokemonResponse{
-        case success(model: PokemonModel)
-        case serverError(description: ServerError)
-        case timeOut(description: ServerError)
-        case noConnection(description: ServerError)
-        case invalidResponse
-    }
-    
     
     //segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
