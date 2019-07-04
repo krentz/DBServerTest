@@ -9,16 +9,6 @@
 import Foundation
 
 struct  Pokemon {
-    var pokemon : Type
+    var pokemon : PokemonTypeStructure
     var slot : Int
-}
-
-struct PokemonNamesStructure{
-    var pokemon : [Type]
-    var slot : Int
-}
-
-struct PokemonListNames {
-    var name : String?
-    var id : Int?
 }

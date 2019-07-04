@@ -1,5 +1,5 @@
 //
-//  PokemonModel.swift
+//  PokemonDetail.swift
 //  DBServerTest
 //
 //  Created by Rafael Goncalves on 27/06/19.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PokemonModel {
+struct PokemonDetail {
     var id : Int
     var name : String
     var urlImage : String

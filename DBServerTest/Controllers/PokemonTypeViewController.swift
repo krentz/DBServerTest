@@ -53,7 +53,6 @@ class PokemonTypeViewController: UIViewController{
         }
     }
     
-    //segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "pokemonList") {
             let vc = segue.destination as! PokemonListViewController

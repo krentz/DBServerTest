@@ -19,11 +19,11 @@ class PokemonDetailViewController: UIViewController {
     @IBOutlet weak var weight: UILabel!
     @IBOutlet weak var abilities: UILabel!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.parsePokemonTypesListResponse()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationItem.title = "Pokemon"
@@ -31,19 +31,16 @@ class PokemonDetailViewController: UIViewController {
     }
     
     func parsePokemonTypesListResponse(){
-        
         Service.shared.loadPokemonDetail(url: pokemonURL){ response in
             switch response{
-            case .success(let pokemonModel):
-                
+            case .success(let pokemonDetail):
                 DispatchQueue.main.async {
-                    self.picture.loadImage(url: pokemonModel.urlImage)
-                    self.name.text = pokemonModel.name
-                    self.height.text = "\(pokemonModel.height)"
-                    self.weight.text = "\(pokemonModel.weight)"
-                    self.abilities.text = "\(pokemonModel.weight)"
+                    self.picture.loadImage(url: pokemonDetail.urlImage)
+                    self.name.text = pokemonDetail.name
+                    self.height.text = "\(pokemonDetail.height)"
+                    self.weight.text = "\(pokemonDetail.weight)"
+                    self.abilities.text = "\(pokemonDetail.weight)"
                 }
-                
             case .serverError(let description):
                 print(description)
                 self.showAlert(title: "server error" , message:  "error", in: self)
@@ -58,13 +55,5 @@ class PokemonDetailViewController: UIViewController {
                 print("Invalid Response")
             }
         }
-        
-        Service.shared.loadPokemonDetail(url: pokemonURL, completion: { pokemonModel in
-            
-            
-        })
     }
-    
-    
-    
 }

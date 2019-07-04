@@ -8,10 +8,6 @@
 
 import Foundation
 
-struct Type{
-    var name : String
-    var url : String
-}
 
 struct PokemonTypeStructure{
     var name : String

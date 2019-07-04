@@ -12,15 +12,18 @@ class PokemonListViewController :UIViewController{
     
     @IBOutlet weak var tableView: UITableView!
     
-    var pokemonList : [Type] = [Type]()
+    var pokemonList : [PokemonTypeStructure] = [PokemonTypeStructure]()
     var pokemonsType: PokemonTypeStructure?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Type"
-        self.navigationController?.navigationBar.topItem?.title = ""
         
         self.loadPokemonTypeList()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationItem.title = "Type"
+        self.navigationController?.navigationBar.topItem?.title = ""
     }
     
     func loadPokemonTypeList(){
@@ -49,8 +52,6 @@ class PokemonListViewController :UIViewController{
         }
     }
     
-    
-    //segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "pokemonDetail") {
             let vc = segue.destination as! PokemonDetailViewController
@@ -76,8 +77,7 @@ extension PokemonListViewController: UITableViewDataSource{
         
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        
-            cell.textLabel?.text = "\(String(describing: self.pokemonList[indexPath.row].name))"
+        cell.textLabel?.text = "\(String(describing: self.pokemonList[indexPath.row].name))"
         
         //remove extra separator
         self.tableView.tableFooterView = UIView()
@@ -89,12 +89,7 @@ extension PokemonListViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-//        if let count =  self.pokemonList?.pokemon?.count {
-//            return count
-//        }
-        
-        return  self.pokemonList.count
+        return self.pokemonList.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
